@@ -26,13 +26,15 @@ fi
 
 [ -n "$KERNEL_VERSION" ] || fail "KERNEL_VERSION is not set"
 
-if [ "$KERNEL_CLEAN" = true ] && [ -d "$BUILDDIR" ]; then
-  echo "== Cleaning old $KERNEL_VERSION"
+if [ "$CLEAN" = true ] && [ -d "$BUILDDIR" ]; then
+  echo "== Cleaning kernel build  directory"
   rm -fr "$BUILDDIR"
 fi
 
-if [ -n "$KERNEL_SNAPSHOT" ] && [ ! -d "$BUILDDIR/$KERNEL_VERSION" ]; then
-  mkdir -p "$BUILDDIR/$KERNEL_VERSION"
+KERNEL_BUILDDIR="$BUILDDIR"/linux-"$KERNEL_VERSION"
+
+if [ -n "$KERNEL_SNAPSHOT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
+  mkdir -p "$KERNEL_BUILDDIR"
   echo "== Downloading kernel snapshot: $KERNEL_SNAPSHOT"
   curl "$KERNEL_SNAPSHOT" | tar -xz -C "$BUILDDIR"
   [[ $? == 0 ]] || fail "Kernel snapshot downloading failed"
@@ -49,20 +51,20 @@ fi
 
 if [ -d "$KERNEL_PATCHDIR" ]; then
   echo "== Applying patches from $KERNEL_PATCHDIR..."
-  find "$ROOTDIR/$KERNEL_PATCHDIR" -name "*.patch" -exec patch -d "$BUILDDIR/$KERNEL_VERSION" -tN -p1 -i {} \;
+  find "$ROOTDIR/$KERNEL_PATCHDIR" -name "*.patch" -exec patch -d "$KERNEL_BUILDDIR" -tN -p1 -i {} \;
   echo "== Kernel patched."
 fi
 
 if [ -n "$KERNEL_CONFIG" ]; then
-  cp -f "$KERNEL_CONFIG" "$BUILDDIR/$KERNEL_VERSION/.config"
+  cp -f "$KERNEL_CONFIG" "$KERNEL_BUILDDIR"/.config
 else
   fail "KERNEL_CONFIG is not set"
 fi
 
-echo "== Building $KERNEL_VERSION"
-cd "$BUILDDIR/$KERNEL_VERSION"
+echo "== Building kernel $KERNEL_VERSION"
+cd "$KERNEL_BUILDDIR"
 yes '' | make oldconfig
-if [ "$KERNEL_CLEAN" = true ]; then
+if [ "$CLEAN" = true ]; then
   make -j`nproc` deb-pkg LOCALVERSION=-"$KERNEL_LOCALVER"
 else
   make -j`nproc` bindeb-pkg LOCALVERSION=-"$KERNEL_LOCALVER"
@@ -71,5 +73,5 @@ fi
 [[ $? == 0 ]] ||  fail "Kernel build failed"
 
 cd "$ROOTDIR"
-mv "$BUILDDIR/*.deb $DEBSDIR/"
+mv "$BUILDDIR"/*.deb "$DEBSDIR"/
 echo "== Kernel successfully built! DEB files moved to $DEBSDIR"
