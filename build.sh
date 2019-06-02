@@ -54,7 +54,6 @@ if [ -d "$KERNEL_PATCHDIR" ]; then
   find "$ROOTDIR/$KERNEL_PATCHDIR" -name "*.patch" -print0 | sort -zn | xargs -0 -I '{}' patch -d "$KERNEL_BUILDDIR" -t -N -p1 -i {}
   echo "== Kernel patched."
 fi
-exit 0
 
 if [ -n "$KERNEL_CONFIG" ]; then
   cp -f "$KERNEL_CONFIG" "$KERNEL_BUILDDIR"/.config
