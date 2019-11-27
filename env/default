@@ -2,9 +2,9 @@ DEBFULLNAME="Alexander Petrovskiy"
 DEBEMAIL="alexpe@mellanox.com"
 
 #KERNEL_CLEAN=true
-KERNEL_VERSION="linux-5.1-rc5"
+KERNEL_VERSION="linux-5.4.0"
 KERNEL_LOCALVER="mlnx"
-KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.1-rc5.tar.gz"
+KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.4.tar.gz"
 KERNEL_PATCHDIR="patches"
 KERNEL_CONFIG="kernel/config-default"
-KERNEL_UBUNTU_PPA="https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.1-rc5"
+KERNEL_UBUNTU_PPA="https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.4"

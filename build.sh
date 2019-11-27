@@ -36,6 +36,14 @@ if [ -n "$KERNEL_SNAPSHOT" ] && [ ! -d "$BUILDDIR/$KERNEL_VERSION" ]; then
   echo "== Downloading kernel snapshot: $KERNEL_SNAPSHOT"
   curl "$KERNEL_SNAPSHOT" | tar -xz -C "$BUILDDIR"
   [[ $? == 0 ]] || fail "Kernel snapshot downloading failed"
+elif [ -n "$KERNEL_GIT" ] && [ ! -d "$BUILDDIR/$KERNEL_VERSION" ]; then
+  if [ -n "$KERNEL_GIT_BRANCH" ]; then
+    CLONE="$KERNEL_GIT -b $KERNEL_GIT_BRANCH $BUILDDIR/$KERNEL_VERSION"
+  else
+    CLONE="$KERNEL_GIT $BUILDDIR/$KERNEL_VERSION"
+  fi
+  git clone $CLONE
+  [[ $? == 0 ]] || fail "Kernel git cloning failed"
 fi
 
 if [ -n "$KERNEL_UBUNTU_PPA" ]; then
