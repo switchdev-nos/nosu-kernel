@@ -1,11 +1,11 @@
 DEBFULLNAME="Alexander Petrovskiy"
 DEBEMAIL="alexpe@mellanox.com"
 
-KERNEL_CLEAN=false
-KERNEL_VERSION="linux-5.4.0-rc7"
+CLEAN=false
+KERNEL_VERSION="5.4.0-rc7"
 KERNEL_LOCALVER="8021qaz"
 #KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.4.tar.gz"
 KERNEL_GIT="https://github.com/jpirko/linux_mlxsw"
 KERNEL_GIT_BRANCH="petrm_net_next_8021qaz"
 #KERNEL_PATCHDIR="patches"
-KERNEL_CONFIG="kernel/config-custom"
+KERNEL_CONFIG="kernel/config-mlnx-custom"

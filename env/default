@@ -1,10 +1,10 @@
 DEBFULLNAME="Alexander Petrovskiy"
 DEBEMAIL="alexpe@mellanox.com"
 
-#KERNEL_CLEAN=true
-KERNEL_VERSION="linux-5.4.0"
+CLEAN=true
+KERNEL_VERSION="5.4"
 KERNEL_LOCALVER="mlnx"
 KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.4.tar.gz"
 KERNEL_PATCHDIR="patches"
-KERNEL_CONFIG="kernel/config-default"
+KERNEL_CONFIG="kernel/config-mlnx-default"
 KERNEL_UBUNTU_PPA="https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.4"
