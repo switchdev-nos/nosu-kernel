@@ -1,9 +1,9 @@
 DEBFULLNAME="Alexander Petrovskiy"
 DEBEMAIL="alexpe@mellanox.com"
 
-CLEAN=false
-KERNEL_VERSION="5.4.0-rc7"
-KERNEL_LOCALVER="8021qaz"
+CLEAN=true
+KERNEL_VERSION="5.6.0-rc3"
+KERNEL_LOCALVER="8021qaz-4"
 #KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.4.tar.gz"
 KERNEL_GIT="https://github.com/jpirko/linux_mlxsw"
 KERNEL_GIT_BRANCH="petrm_net_next_8021qaz"
