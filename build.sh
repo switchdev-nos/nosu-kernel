@@ -36,7 +36,7 @@ KERNEL_BUILDDIR="$BUILDDIR"/linux-"$KERNEL_VERSION"
 if [ -n "$KERNEL_SNAPSHOT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
   mkdir -p "$KERNEL_BUILDDIR"
   echo "== Downloading kernel snapshot: $KERNEL_SNAPSHOT"
-  curl "$KERNEL_SNAPSHOT" | tar -xz -C "$BUILDDIR"
+  curl "$KERNEL_SNAPSHOT" | tar -xz --strip 1 -C "$KERNEL_BUILDDIR"
   [[ $? == 0 ]] || fail "Kernel snapshot downloading failed"
 elif [ -n "$KERNEL_GIT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
   if [ -n "$KERNEL_GIT_BRANCH" ]; then
@@ -81,5 +81,6 @@ fi
 [[ $? == 0 ]] ||  fail "Kernel build failed"
 
 cd "$ROOTDIR"
+rm -f "$BUILDDIR"/linux-image*dbg*.deb
 mv "$BUILDDIR"/*.deb "$DEBSDIR"/
 echo "== Kernel successfully built! DEB files moved to $DEBSDIR"
