@@ -31,18 +31,18 @@ if [ "$CLEAN" = true ] && [ -d "$BUILDDIR" ]; then
   rm -fr "$BUILDDIR"
 fi
 
-NOSU_KERNEL_BUILDDIR="$BUILDDIR"/linux-"$NOSU_KERNEL_VERSION"
+KERNEL_BUILDDIR="$BUILDDIR"/linux-"$NOSU_KERNEL_VERSION"
 
-if [ -n "$NOSU_KERNEL_SNAPSHOT" ] && [ ! -d "$NOSU_KERNEL_BUILDDIR" ]; then
-  mkdir -p "$NOSU_KERNEL_BUILDDIR"
+if [ -n "$NOSU_KERNEL_SNAPSHOT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
+  mkdir -p "$KERNEL_BUILDDIR"
   echo "== Downloading kernel snapshot: $NOSU_KERNEL_SNAPSHOT"
-  curl "$NOSU_KERNEL_SNAPSHOT" | tar -xz --strip 1 -C "$NOSU_KERNEL_BUILDDIR"
+  curl "$NOSU_KERNEL_SNAPSHOT" | tar -xz --strip 1 -C "$KERNEL_BUILDDIR"
   [[ $? == 0 ]] || fail "Kernel snapshot downloading failed"
-elif [ -n "$NOSU_KERNEL_GIT" ] && [ ! -d "$NOSU_KERNEL_BUILDDIR" ]; then
+elif [ -n "$NOSU_KERNEL_GIT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
   if [ -n "$NOSU_KERNEL_GIT_BRANCH" ]; then
-    CLONE="$NOSU_KERNEL_GIT -b $NOSU_KERNEL_GIT_BRANCH $NOSU_KERNEL_BUILDDIR"
+    CLONE="$NOSU_KERNEL_GIT -b $NOSU_KERNEL_GIT_BRANCH $KERNEL_BUILDDIR"
   else
-    CLONE="$NOSU_KERNEL_GIT $NOSU_KERNEL_BUILDDIR"
+    CLONE="$NOSU_KERNEL_GIT $KERNEL_BUILDDIR"
   fi
   git clone $CLONE
   [[ $? == 0 ]] || fail "Kernel git cloning failed"
@@ -59,19 +59,20 @@ fi
 
 if [ -d "$NOSU_KERNEL_PATCHDIR" ]; then
   echo "== Applying patches from $NOSU_KERNEL_PATCHDIR..."
-  find "$ROOTDIR/$NOSU_KERNEL_PATCHDIR" -name "*.patch" -print0 | sort -zn | xargs -0 -I '{}' patch -d "$NOSU_KERNEL_BUILDDIR" -t -N -p1 -i {}
+  find "$ROOTDIR/$NOSU_KERNEL_PATCHDIR" -name "*.patch" -print0 | sort -zn | xargs -0 -I '{}' patch -d "$KERNEL_BUILDDIR" -t -N -p1 -i {}
   echo "== Kernel patched."
 fi
 
 if [ -n "$NOSU_KERNEL_CONFIG" ]; then
-  cp -f "$NOSU_KERNEL_CONFIG" "$NOSU_KERNEL_BUILDDIR"/.config
+  cp -f "$NOSU_KERNEL_CONFIG" "$KERNEL_BUILDDIR"/.config
 else
   fail "NOSU_KERNEL_CONFIG is not set"
 fi
 
 echo "== Building kernel $NOSU_KERNEL_VERSION"
-cd "$NOSU_KERNEL_BUILDDIR"
+cd "$KERNEL_BUILDDIR"
 yes '' | make oldconfig
+scripts/config --disable DEBUG_INFO
 if [ "$CLEAN" = true ]; then
   make -j`nproc` deb-pkg LOCALVERSION=-"$NOSU_KERNEL_LOCALVER"
 else
@@ -81,7 +82,5 @@ fi
 [[ $? == 0 ]] ||  fail "Kernel build failed"
 
 cd "$ROOTDIR"
-# remove debug image
-rm -f "$BUILDDIR"/linux-image*dbg*.deb
 mv "$BUILDDIR"/*.deb "$DEBSDIR"/
 echo "== Kernel successfully built! DEB files moved to $DEBSDIR"
