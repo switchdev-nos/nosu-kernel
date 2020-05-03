@@ -82,5 +82,5 @@ fi
 [[ $? == 0 ]] ||  fail "Kernel build failed"
 
 cd "$ROOTDIR"
-mv "$BUILDDIR"/*.deb "$DEBSDIR"/
+mv -f "$BUILDDIR"/*.deb "$DEBSDIR"/
 echo "== Kernel successfully built! DEB files moved to $DEBSDIR"
