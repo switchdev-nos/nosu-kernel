@@ -2,10 +2,10 @@ DEBFULLNAME="Alexander Petrovskiy"
 DEBEMAIL="alexpe@mellanox.com"
 
 CLEAN=true
-NOSU_KERNEL_VERSION="5.7.0-rc3"
+NOSU_KERNEL_VERSION="5.7.0-rc7"
 NOSU_KERNEL_LOCALVER="nosu"
-NOSU_KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.7-rc3.tar.gz"
+NOSU_KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.7-rc7.tar.gz"
 #NOSU_KERNEL_GIT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
-#NOSU_KERNEL_GIT_BRANCH="v5.7-rc3"
+#NOSU_KERNEL_GIT_BRANCH="v5.7-rc7"
 NOSU_KERNEL_PATCHDIR="patches"
 NOSU_KERNEL_CONFIG="config/config-mlnx-default"
