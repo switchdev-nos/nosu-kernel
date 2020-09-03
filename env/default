@@ -1,11 +1,11 @@
 DEBFULLNAME="Alexander Petrovskiy"
-DEBEMAIL="alexpe@mellanox.com"
+DEBEMAIL="alexpe@nvidia.com"
 
 CLEAN=true
-NOSU_KERNEL_VERSION="5.8.0-rc4"
+NOSU_KERNEL_VERSION="5.8.6"
 NOSU_KERNEL_LOCALVER="nosu"
-NOSU_KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-5.8-rc4.tar.gz"
+NOSU_KERNEL_SNAPSHOT="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/snapshot/linux-5.8.6.tar.gz"
 #NOSU_KERNEL_GIT="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
-#NOSU_KERNEL_GIT_BRANCH="v5.8-rc4"
+#NOSU_KERNEL_GIT_BRANCH="v5.8.6"
 NOSU_KERNEL_PATCHDIR="patches"
 NOSU_KERNEL_CONFIG="config/config-mlnx-default"
