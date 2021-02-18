@@ -35,7 +35,6 @@ KERNEL_BUILDDIR="$BUILDDIR"/linux-"$NOSU_KERNEL_VERSION"
 
 if [ -n "$NOSU_KERNEL_SNAPSHOT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
   mkdir -p "$KERNEL_BUILDDIR"
-  echo "== Downloading kernel snapshot: $NOSU_KERNEL_SNAPSHOT"
   curl "$NOSU_KERNEL_SNAPSHOT" | tar -xz --strip 1 -C "$KERNEL_BUILDDIR"
   [[ $? == 0 ]] || fail "Kernel snapshot downloading failed"
 elif [ -n "$NOSU_KERNEL_GIT" ] && [ ! -d "$KERNEL_BUILDDIR" ]; then
